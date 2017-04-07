@@ -1,0 +1,3 @@
+include ':ModularAdapter'
+include ':SortedListItemManager'
+include ':StaticListItemManager'

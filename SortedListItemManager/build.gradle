@@ -1,0 +1,96 @@
+plugins {
+    id 'com.github.wrdlbrnft.proguard-annotations' version '0.3.0.11'
+    id 'me.tatarka.retrolambda' version '3.6.0'
+}
+
+apply plugin: 'com.android.library'
+apply plugin: 'maven'
+apply plugin: 'maven-publish'
+apply plugin: 'com.jfrog.bintray'
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion '25.0.2'
+
+    defaultConfig {
+        minSdkVersion 9
+        targetSdkVersion 25
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        targetCompatibility 1.8
+        sourceCompatibility 1.8
+    }
+}
+
+dependencies {
+    provided project(path: ':ModularAdapter')
+    provided 'com.android.support:recyclerview-v7:25.3.1'
+    provided 'com.android.support:support-annotations:25.3.1'
+}
+
+final bintrayUser = hasProperty('bintray_user') ? property('bintray_user') : ''
+final bintrayApiKey = hasProperty('bintray_api_key') ? property('bintray_api_key') : ''
+final versionName = hasProperty('version_name') ? property('version_name') : '0.1.0.0'
+
+task sourceJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier 'source'
+}
+
+publishing {
+    publications {
+        Bintray(MavenPublication) {
+            groupId 'com.github.wrdlbrnft'
+            artifactId 'sorted-list-item-manager'
+            version versionName
+            artifact sourceJar
+            artifact new File(buildDir, '/outputs/aar/SortedListItemManager-release.aar')
+
+            pom.withXml {
+                def dependenciesNode = asNode().appendNode('dependencies')
+                project.configurations.compile.allDependencies.each {
+                    if (it.group != null && it.name != null && it.version != null) {
+                        def dependencyNode = dependenciesNode.appendNode('dependency')
+                        dependencyNode.appendNode 'groupId', it.group
+                        dependencyNode.appendNode 'artifactId', it.name
+                        dependencyNode.appendNode 'version', it.version
+                        final dependencyArtifact = it.artifacts[0];
+                        if(dependencyArtifact != null) {
+                            if (dependencyArtifact.classifier != null) {
+                                dependencyNode.appendNode 'classifier', dependencyArtifact.classifier
+                            }
+                            if (dependencyArtifact.extension != null) {
+                                dependencyNode.appendNode 'type', dependencyArtifact.extension
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+bintray {
+    user = bintrayUser
+    key = bintrayApiKey
+    publications = ['Bintray']
+    pkg {
+        repo = 'maven'
+        name = 'SortedListItemManager'
+        userOrg = bintrayUser
+        licenses = ['Apache-2.0']
+        vcsUrl = 'https://github.com/Wrdlbrnft/ModularAdapter'
+        publicDownloadNumbers = true
+        version {
+            name = versionName
+            released = new Date()
+        }
+    }
+}
