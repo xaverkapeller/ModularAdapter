@@ -12,7 +12,7 @@
 Just add this dependency to your build.gradle file:
 
 ```
-compile 'com.github.wrdlbrnft:modular-adapter:0.2.0.5'
+compile 'com.github.wrdlbrnft:modular-adapter:0.2.0.6'
 ```
 
 # How do I use it?
@@ -31,7 +31,7 @@ public class ExampleAdapter extends ModularAdapter<ExampleModel> {
     @Override
     protected ViewHolder<? extends ExampleModel> onCreateViewHolder(LayoutInflater inflater, ViewGroup parent, int viewType) {
         final View itemView = inflater.inflate(R.layout.item_example, parent, false);
-        return new ExampleViewHolder(itemView, mListener);
+        return new ExampleViewHolder(itemView);
     }
 }
 ```
@@ -46,7 +46,7 @@ final ModularAdapter<ExampleModel> adapter = new ModularAdapter.Builder<>(contex
             @Override
             public ModularAdapter.ViewHolder<ExampleModel> create(LayoutInflater layoutInflater, ViewGroup parent) {
                 final View itemView = inflater.inflate(R.layout.item_example, parent, false);
-                return new ExampleViewHolder(itemView, mListener);
+                return new ExampleViewHolder(itemView);
             }
         })
         .build();
@@ -98,7 +98,7 @@ You can find more information about these `ItemManager` implementations below.
 This `ItemManager` is useful for displaying a static `List` of items. To use the `StaticListItemManager` add this dependency to your build.gradle file:
 
 ```groovy
-compile 'com.github.wrdlbrnft:static-list-item-manager:0.2.0.5'
+compile 'com.github.wrdlbrnft:static-list-item-manager:0.2.0.6'
 ```
 
 After that you can use it in your code like this:
@@ -120,7 +120,7 @@ This `ItemManager` is useful whenever you want to display a `List` of models in 
 To use the `SortedListItemManager` just add this dependency to your build.gradle file:
 
 ```groovy
-compile 'com.github.wrdlbrnft:sorted-list-item-manager:0.2.0.5'
+compile 'com.github.wrdlbrnft:sorted-list-item-manager:0.2.0.6'
 ```
 
 You need two things for the `SortedListItemManager` to perform its magic:
