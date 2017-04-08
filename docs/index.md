@@ -1,7 +1,4 @@
-# ModularAdapter
-
-The `RecyclerView.Adapter` that makes your life easy!
-
+ 
  - **Improves your architecture**: The modular nature of the `ModularAdapter` allows splitting up your `Adapters` into a few very small and simple components making it easy for your to create beautiful lists.
  - **Simple to use, almost no boilerplate**: Creating an `Adapter` for a `RecyclerView` has never been this simple. Just a few lines of code and picking an appropriate `ItemManager` implementation is all you need to do.
  - **Takes care of the heavy lifting**: By introducing `ItemManager` components the `ModularAdapter` allows you to accomplish complex behaviors in your `RecyclerView` with just a few lines of code.
