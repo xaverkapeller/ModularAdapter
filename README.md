@@ -131,7 +131,7 @@ You need two things for the `SortedListItemManager` to perform its magic:
  - Every model class managed by the `SortedListItemManager` has to implement the `SortedListItemManager.ViewModel` interface.
  - You need a define a `Comparator` which determines the order of the items in your `RecyclerView`
 
-### Implementing the `SortedListItemManager.ViewModel` interface
+### Implementing the SortedListItemManager.ViewModel interface
 
 All models managed by the `SortedListItemManager` have to implement the `SortedListItemManager.ViewModel` interface. This interface requires you to implement two methods in your model:
 
@@ -179,7 +179,7 @@ public class ExampleModel implements SortedListItemManager.ViewModel {
 }
 ```
 
-### Defining a `Comparator` for your `SortedListItemManager`
+### Defining a Comparator for your SortedListItemManager
 
 The `Comparator` used by the `SortedListItemManager` can be implemented like any `Comparator` that would be used for sorting:
 
@@ -216,7 +216,7 @@ final Comparator<ExampleModel> comparator = new ComparatorBuilder<>()
 
 In the above example `setGeneralOrder()` is used to set the order of models based on their type. In this specific example it means all `SomeModel` models will appear before `AnotherModel` models. The `setOrderForModel()` calls below it are used to set how each type of model should be ordered specifically. In this case it means that `SomeModel` instances are ordered by comparing their text field and `AnotherModel` instances are ordered based on their rank field.
 
-### Using the `SortedListItemManager`
+### Using the SortedListItemManager
 
 Once you have implemented the `SortedListItemManager.ViewModel` interface in your models and created a `Comparator` you can use the `SortedListItemManager` like this:
 
