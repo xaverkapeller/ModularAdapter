@@ -13,4 +13,4 @@ script:
   - ./gradlew clean build
 
 after_success:
-  - ./gradlew :StaticListItemManager:bintrayUpload -Pbintray_user=$BINTRAY_USER -Pbintray_api_key=$BINTRAY_API_KEY -Pversion_name=0.2.0.$TRAVIS_BUILD_NUMBER
+  - ./gradlew bintrayUpload -Pbintray_user=$BINTRAY_USER -Pbintray_api_key=$BINTRAY_API_KEY -Pversion_name=0.2.0.$TRAVIS_BUILD_NUMBER
