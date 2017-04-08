@@ -98,6 +98,10 @@ public abstract class ModularAdapter<T> extends RecyclerView.Adapter<ModularAdap
         ));
     }
 
+    public ItemManager<T> getItemManager() {
+        return mItemManager;
+    }
+
     @Override
     public final ViewHolder<? extends T> onCreateViewHolder(ViewGroup parent, int viewType) {
         return onCreateViewHolder(mInflater, parent, viewType);
