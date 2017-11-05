@@ -2,7 +2,7 @@
  - **Improves your architecture**: The modular nature of the `ModularAdapter` allows splitting up your `Adapters` into a few very small and simple components making it easy for your to create beautiful lists.
  - **Simple to use, almost no boilerplate**: Creating an `Adapter` for a `RecyclerView` has never been this simple. Just a few lines of code and picking an appropriate `ItemManager` implementation is all you need to do.
  - **Takes care of the heavy lifting**: By introducing `ItemManager` components the `ModularAdapter` allows you to accomplish complex behaviors in your `RecyclerView` with just a few lines of code.
- - **Extremely lightweight**: `ModularAdapter` is not a huge library with tons of functionality you are never going to need. The footprint of this library is tiny and you only need to include exactly the functionality you are going to need into your project.  
+ - **Extremely lightweight**: `ModularAdapter` is not a huge library with tons of functionality you are never going to need. The footprint of this library is tiny and you only need to include exactly the functionality you are going to need into your project.
 
 [![Build Status](https://travis-ci.org/Wrdlbrnft/ModularAdapter.svg?branch=master)](https://travis-ci.org/Wrdlbrnft/ModularAdapter)
 [![BCH compliance](https://bettercodehub.com/edge/badge/Wrdlbrnft/ModularAdapter)](https://bettercodehub.com/)
@@ -12,7 +12,7 @@
 Just add this dependency to your build.gradle file:
 
 ```
-compile 'com.github.wrdlbrnft:modular-adapter:0.2.0.6'
+api 'com.github.wrdlbrnft:modular-adapter:0.3.0.8'
 ```
 
 # How do I use it?
@@ -69,7 +69,7 @@ public class ExampleViewHolder extends ModularAdapter.ViewHolder<ExampleModel> {
 
     public ExampleViewHolder(View itemView) {
         super(itemView);
-        
+
         mValueView = itemView.findViewById(R.id.value);
     }
 
@@ -89,7 +89,7 @@ The method `performBind()` is called by the `ModularAdapter` when it is necessar
 Currently there are two `ItemManager` implementations available right out of the box:
 
  - `StaticListItemManager`: A very simple `ItemManager` implementation that just displays a `List` of items. You should use this whenever you have a predefined unchanging `List` of models - for example for a known list of options the user can select one of. Changes to that `List` are not supported by the `StaticListItemManager`.
- - `SortedListItemManager`: This `ItemManager` displays a dynamic collection of items in a sorted order determined by a `Comparator`. It is useful whenever you want to display a `List` of models in a particular order - for example sorted by date. Another thing this `ItemManager` excels at is high performance filtering and random changes to the underlying data even for very long lists up to 100.000 items. All changes to the data are automatically fully animated in the `RecyclerView`.  
+ - `SortedListItemManager`: This `ItemManager` displays a dynamic collection of items in a sorted order determined by a `Comparator`. It is useful whenever you want to display a `List` of models in a particular order - for example sorted by date. Another thing this `ItemManager` excels at is high performance filtering and random changes to the underlying data even for very long lists up to 100.000 items. All changes to the data are automatically fully animated in the `RecyclerView`.
 
 You can find more information about these `ItemManager` implementations below.
 
@@ -98,7 +98,7 @@ You can find more information about these `ItemManager` implementations below.
 This `ItemManager` is useful for displaying a static `List` of items. To use the `StaticListItemManager` add this dependency to your build.gradle file:
 
 ```groovy
-compile 'com.github.wrdlbrnft:static-list-item-manager:0.2.0.6'
+api 'com.github.wrdlbrnft:static-list-item-manager:0.3.0.8'
 ```
 
 After that you can use it in your code like this:
@@ -113,6 +113,32 @@ recyclerView.setAdapter(adapter);
 
 This `ItemManager` does not support making any changes to the `List` of items once it has been created.
 
+## FireStoreItemManager
+
+This `ItemManager` can be used to list Items stored in a [**Firebase FireStore**](https://firebase.google.com/docs/firestore/) collection.
+
+To use `FireStoreItemManager` just add this dependency to your build.gradle file:
+
+```groovy
+api 'com.github.wrdlbrnft:fire-store-item-manager:0.3.0.8'
+```
+
+You need to pass three things to the `FireStoreItemManager to make it work:
+
+ - An `Activity` reference
+ - A `CollectionReference` which references the collection you want to display
+ - An `ItemMapper` instance. It is responsible for mapping the `DocumentSnapshot` objects which are returned from `FireStore` to your model objects.
+
+You can use it like this:
+
+```java
+final CollectionReference reference = mFireStoreDb.collection("users")
+
+final ItemManager<UserModel> itemManager = new FireStoreItemManager<>(activity, reference, snapShot -> new UserModel(snapShot.getString("name")));
+final UserAdapter adapter = new UserAdapter(context, itemManager);
+recyclerView.setAdapter(adapter);
+```
+
 ## SortedListItemManager
 
 This `ItemManager` is useful whenever you want to display a `List` of models in a particular order - for example sorted by date. Another thing this `ItemManager` excels at is high performance filtering and random changes to the underlying data even for very long lists up to 100.000 items. All changes to the data are automatically fully animated in the `RecyclerView`.
@@ -120,7 +146,7 @@ This `ItemManager` is useful whenever you want to display a `List` of models in 
 To use the `SortedListItemManager` just add this dependency to your build.gradle file:
 
 ```groovy
-compile 'com.github.wrdlbrnft:sorted-list-item-manager:0.2.0.6'
+api 'com.github.wrdlbrnft:sorted-list-item-manager:0.3.0.8'
 ```
 
 You need two things for the `SortedListItemManager` to perform its magic:
