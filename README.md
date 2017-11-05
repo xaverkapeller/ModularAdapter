@@ -15,7 +15,7 @@ The `RecyclerView.Adapter` that makes your life easy!
 Just add this dependency to your build.gradle file:
 
 ```
-api 'com.github.wrdlbrnft:modular-adapter:0.3.0.12'
+api 'com.github.wrdlbrnft:modular-adapter:0.3.0.13'
 ```
 
 # How do I use it?
@@ -101,7 +101,7 @@ You can find more information about these `ItemManager` implementations below.
 This `ItemManager` is useful for displaying a static `List` of items. To use the `StaticListItemManager` add this dependency to your build.gradle file:
 
 ```groovy
-api 'com.github.wrdlbrnft:static-list-item-manager:0.3.0.12'
+api 'com.github.wrdlbrnft:static-list-item-manager:0.3.0.13'
 ```
 
 After that you can use it in your code like this:
@@ -123,7 +123,7 @@ This `ItemManager` can be used to list Items stored in a [**Firebase FireStore**
 To use `FireStoreItemManager` just add this dependency to your build.gradle file:
 
 ```groovy
-api 'com.github.wrdlbrnft:fire-store-item-manager:0.3.0.12'
+api 'com.github.wrdlbrnft:fire-store-item-manager:0.3.0.13'
 ```
 
 You need to pass three things to the `FireStoreItemManager to make it work:
@@ -149,7 +149,7 @@ This `ItemManager` is useful whenever you want to display a `List` of models in 
 To use the `SortedListItemManager` just add this dependency to your build.gradle file:
 
 ```groovy
-api 'com.github.wrdlbrnft:sorted-list-item-manager:0.3.0.12'
+api 'com.github.wrdlbrnft:sorted-list-item-manager:0.3.0.13'
 ```
 
 You need two things for the `SortedListItemManager` to perform its magic:

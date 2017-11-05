@@ -27,7 +27,7 @@ android {
 dependencies {
     compileOnly project(path: ':ModularAdapter')
     compileOnly 'com.android.support:support-annotations:26.1.0'
-    implementation 'com.google.firebase:firebase-firestore:11.4.2'
+    compileOnly 'com.google.firebase:firebase-firestore:11.4.2'
 }
 
 final bintrayUser = System.getenv('BINTRAY_USER') ?: ''
