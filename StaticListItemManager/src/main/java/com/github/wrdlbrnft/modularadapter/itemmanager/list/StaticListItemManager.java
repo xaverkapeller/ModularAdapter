@@ -1,9 +1,6 @@
 package com.github.wrdlbrnft.modularadapter.itemmanager.list;
 
 import com.github.wrdlbrnft.modularadapter.itemmanager.ItemManager;
-import com.github.wrdlbrnft.proguardannotations.KeepClass;
-import com.github.wrdlbrnft.proguardannotations.KeepClassMembers;
-import com.github.wrdlbrnft.proguardannotations.KeepSetting;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,8 +10,6 @@ import java.util.List;
  * User: Xaver<br>
  * Date: 04/04/2017
  */
-@KeepClass
-@KeepClassMembers(KeepSetting.PUBLIC_MEMBERS)
 public class StaticListItemManager<T> implements ItemManager<T> {
 
     private final List<T> mList;

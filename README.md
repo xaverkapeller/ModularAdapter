@@ -15,7 +15,7 @@ The `RecyclerView.Adapter` that makes your life easy!
 Just add this dependency to your build.gradle file:
 
 ```
-compile 'com.github.wrdlbrnft:modular-adapter:0.2.0.6'
+compile 'com.github.wrdlbrnft:modular-adapter:0.3.0.7'
 ```
 
 # How do I use it?
@@ -101,7 +101,7 @@ You can find more information about these `ItemManager` implementations below.
 This `ItemManager` is useful for displaying a static `List` of items. To use the `StaticListItemManager` add this dependency to your build.gradle file:
 
 ```groovy
-compile 'com.github.wrdlbrnft:static-list-item-manager:0.2.0.6'
+compile 'com.github.wrdlbrnft:static-list-item-manager:0.3.0.7'
 ```
 
 After that you can use it in your code like this:
@@ -116,6 +116,32 @@ recyclerView.setAdapter(adapter);
 
 This `ItemManager` does not support making any changes to the `List` of items once it has been created.
 
+## FireStoreItemManager
+
+This `ItemManager` can be used to list Items stored in a [**Firebase FireStore**](https://firebase.google.com/docs/firestore/) collection.
+
+To use `FireStoreItemManager` just add this dependency to your build.gradle file:
+
+```groovy
+compile 'com.github.wrdlbrnft:fire-store-item-manager:0.3.0.7'
+```
+
+You need to pass three things to the `FireStoreItemManager to make it work:
+
+ - An `Activity` reference
+ - A `CollectionReference` which references the collection you want to display
+ - An `ItemMapper` instance. It is responsible for mapping the `DocumentSnapshot` objects which are returned from `FireStore` to your model objects.
+
+You can use it like this:
+
+```java
+final CollectionReference reference = mFireStoreDb.collection("users")
+
+final ItemManager<UserModel> itemManager = new FireStoreItemManager<>(activity, reference, snapShot -> new UserModel(snapShot.getString("name")));
+final UserAdapter adapter = new UserAdapter(context, itemManager);
+recyclerView.setAdapter(adapter);
+```
+
 ## SortedListItemManager
 
 This `ItemManager` is useful whenever you want to display a `List` of models in a particular order - for example sorted by date. Another thing this `ItemManager` excels at is high performance filtering and random changes to the underlying data even for very long lists up to 100.000 items. All changes to the data are automatically fully animated in the `RecyclerView`.
@@ -123,7 +149,7 @@ This `ItemManager` is useful whenever you want to display a `List` of models in 
 To use the `SortedListItemManager` just add this dependency to your build.gradle file:
 
 ```groovy
-compile 'com.github.wrdlbrnft:sorted-list-item-manager:0.2.0.6'
+compile 'com.github.wrdlbrnft:sorted-list-item-manager:0.3.0.7'
 ```
 
 You need two things for the `SortedListItemManager` to perform its magic:

@@ -6,9 +6,6 @@ import android.support.annotation.NonNull;
 import android.support.v7.util.SortedList;
 
 import com.github.wrdlbrnft.modularadapter.itemmanager.ItemManager;
-import com.github.wrdlbrnft.proguardannotations.KeepClass;
-import com.github.wrdlbrnft.proguardannotations.KeepClassMembers;
-import com.github.wrdlbrnft.proguardannotations.KeepSetting;
 import com.github.wrdlbrnft.modularadapter.itemmanager.ModifiableItemManager;
 
 import java.lang.reflect.Array;
@@ -26,12 +23,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * User: Xaver<br>
  * Date: 01/04/2017
  */
-@KeepClass
-@KeepClassMembers(KeepSetting.PUBLIC_MEMBERS)
 public class SortedListItemManager<T extends SortedListItemManager.ViewModel> implements ModifiableItemManager<T> {
 
-    @KeepClass
-    @KeepClassMembers(KeepSetting.PUBLIC_MEMBERS)
     public interface ViewModel {
         <T> boolean isSameModelAs(@NonNull T model);
         <T> boolean isContentTheSameAs(@NonNull T model);

@@ -7,12 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.github.wrdlbrnft.modularadapter.itemmanager.ChangeSet;
 import com.github.wrdlbrnft.modularadapter.itemmanager.ItemManager;
-import com.github.wrdlbrnft.proguardannotations.KeepClass;
-import com.github.wrdlbrnft.proguardannotations.KeepClassMembers;
-import com.github.wrdlbrnft.proguardannotations.KeepMember;
-import com.github.wrdlbrnft.proguardannotations.KeepSetting;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,12 +17,8 @@ import java.util.List;
  * User: Xaver
  * Date: 13/08/16
  */
-@KeepClass
-@KeepClassMembers(KeepSetting.PUBLIC_MEMBERS)
 public abstract class ModularAdapter<T> extends RecyclerView.Adapter<ModularAdapter.ViewHolder<? extends T>> {
 
-    @KeepClass
-    @KeepClassMembers(KeepSetting.PUBLIC_MEMBERS)
     public abstract static class ViewHolder<T> extends RecyclerView.ViewHolder {
 
         private T mCurrentItem;
@@ -41,22 +32,25 @@ public abstract class ModularAdapter<T> extends RecyclerView.Adapter<ModularAdap
             performBind(item);
         }
 
-        @KeepMember
         protected abstract void performBind(@NonNull T item);
+
+        protected void onAttach() {
+
+        }
+
+        protected void onDetach() {
+
+        }
 
         public final T getCurrentItem() {
             return mCurrentItem;
         }
     }
 
-    @KeepClass
-    @KeepClassMembers(KeepSetting.PUBLIC_MEMBERS)
     public interface ViewHolderFactory<VH extends ViewHolder<?>> {
         VH create(@NonNull LayoutInflater inflater, @NonNull ViewGroup parent);
     }
 
-    @KeepClass
-    @KeepClassMembers(KeepSetting.PUBLIC_MEMBERS)
     public static class Builder<T> {
 
         private final List<ModularAdapterImpl.Module<?, ?>> mModules = new ArrayList<>();
@@ -107,7 +101,6 @@ public abstract class ModularAdapter<T> extends RecyclerView.Adapter<ModularAdap
         return onCreateViewHolder(mInflater, parent, viewType);
     }
 
-    @KeepMember
     @NonNull
     protected abstract ViewHolder<? extends T> onCreateViewHolder(@NonNull LayoutInflater inflater, @NonNull ViewGroup parent, int viewType);
 
@@ -115,6 +108,18 @@ public abstract class ModularAdapter<T> extends RecyclerView.Adapter<ModularAdap
     public final void onBindViewHolder(ViewHolder<? extends T> holder, int position) {
         final T item = getItem(position);
         ((ViewHolder<T>) holder).bind(item);
+    }
+
+    @Override
+    public void onViewAttachedToWindow(ViewHolder<? extends T> holder) {
+        super.onViewAttachedToWindow(holder);
+        holder.onAttach();
+    }
+
+    @Override
+    public void onViewDetachedFromWindow(ViewHolder<? extends T> holder) {
+        super.onViewDetachedFromWindow(holder);
+        holder.onDetach();
     }
 
     @Override

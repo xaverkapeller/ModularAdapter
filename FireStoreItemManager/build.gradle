@@ -27,6 +27,7 @@ android {
 dependencies {
     provided project(path: ':ModularAdapter')
     provided 'com.android.support:support-annotations:26.1.0'
+    implementation 'com.google.firebase:firebase-firestore:11.4.2'
 }
 
 final bintrayUser = System.getenv('BINTRAY_USER') ?: ''
@@ -42,10 +43,10 @@ publishing {
     publications {
         Bintray(MavenPublication) {
             groupId 'com.github.wrdlbrnft'
-            artifactId 'static-list-item-manager'
+            artifactId 'fire-store-item-manager'
             version versionName
             artifact sourceJar
-            artifact new File(buildDir, '/outputs/aar/StaticListItemManager-release.aar')
+            artifact new File(buildDir, '/outputs/aar/FireStoreItemManager-release.aar')
 
             pom.withXml {
                 def dependenciesNode = asNode().appendNode('dependencies')
@@ -77,7 +78,7 @@ bintray {
     publications = ['Bintray']
     pkg {
         repo = 'maven'
-        name = 'StaticListItemManager'
+        name = 'FireStoreItemManager'
         userOrg = bintrayUser
         licenses = ['Apache-2.0']
         vcsUrl = 'https://github.com/Wrdlbrnft/ModularAdapter'

@@ -2,16 +2,10 @@ package com.github.wrdlbrnft.modularadapter.itemmanager.sortedlist;
 
 import android.support.annotation.NonNull;
 
-import com.github.wrdlbrnft.proguardannotations.KeepClass;
-import com.github.wrdlbrnft.proguardannotations.KeepClassMembers;
-import com.github.wrdlbrnft.proguardannotations.KeepSetting;
-
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-@KeepClass
-@KeepClassMembers(KeepSetting.PUBLIC_MEMBERS)
 public class ComparatorBuilder<T extends SortedListItemManager.ViewModel> {
 
     interface ComparatorRule {

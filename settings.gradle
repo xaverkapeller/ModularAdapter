@@ -1,3 +1,4 @@
 include ':ModularAdapter'
 include ':SortedListItemManager'
 include ':StaticListItemManager'
+include ':FireStoreItemManager'
