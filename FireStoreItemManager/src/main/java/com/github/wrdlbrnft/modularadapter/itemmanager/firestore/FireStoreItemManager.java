@@ -6,6 +6,7 @@ import com.github.wrdlbrnft.modularadapter.itemmanager.ItemManager;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.Query;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,10 +28,10 @@ public class FireStoreItemManager<T> implements ItemManager<T> {
 
     private List<DocumentSnapshot> mDocuments = new ArrayList<>();
 
-    public FireStoreItemManager(Activity activity, CollectionReference collectionReference, ItemMapper<T> mapper) {
+    public FireStoreItemManager(Activity activity, Query query, ItemMapper<T> mapper) {
         mMapper = mapper;
 
-        collectionReference.addSnapshotListener(activity, (documentSnapshots, e) -> {
+        query.addSnapshotListener(activity, (documentSnapshots, e) -> {
             mDocuments = documentSnapshots.getDocuments();
             for (ChangeSetCallback changeSetCallback : mChangeSetCallbacks) {
                 changeSetCallback.onChangeSetAvailable((moveCallback, addCallback, removeCallback, changeCallback) -> {

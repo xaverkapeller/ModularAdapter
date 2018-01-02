@@ -4,12 +4,11 @@ apply plugin: 'maven-publish'
 apply plugin: 'com.jfrog.bintray'
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion '26.0.2'
+    compileSdkVersion 27
 
     defaultConfig {
         minSdkVersion 14
-        targetSdkVersion 26
+        targetSdkVersion 27
     }
 
     buildTypes {
@@ -26,7 +25,7 @@ android {
 
 dependencies {
     compileOnly project(path: ':ModularAdapter')
-    compileOnly 'com.android.support:support-annotations:26.1.0'
+    compileOnly 'com.android.support:support-annotations:27.0.2'
 }
 
 final bintrayUser = System.getenv('BINTRAY_USER') ?: ''
@@ -35,7 +34,7 @@ final versionName = "0.3.0.${System.getenv('TRAVIS_BUILD_NUMBER') ?: 0}"
 
 task sourceJar(type: Jar) {
     from android.sourceSets.main.java.srcDirs
-    classifier 'source'
+    classifier 'sources'
 }
 
 publishing {
@@ -57,7 +56,7 @@ publishing {
                             dependencyNode.appendNode 'groupId', it.group
                             dependencyNode.appendNode 'artifactId', it.name
                             dependencyNode.appendNode 'version', it.version
-                            final dependencyArtifact = it.artifacts[0];
+                            final dependencyArtifact = it.artifacts[0]
                             if(dependencyArtifact != null) {
                                 if (dependencyArtifact.classifier != null) {
                                     dependencyNode.appendNode 'classifier', dependencyArtifact.classifier
