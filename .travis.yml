@@ -9,6 +9,9 @@ android:
   - build-tools-26.0.2
   - android-27
 
+before_install:
+  - yes | sdkmanager "platforms;android-27"
+
 script:
   - ./gradlew clean build
 
