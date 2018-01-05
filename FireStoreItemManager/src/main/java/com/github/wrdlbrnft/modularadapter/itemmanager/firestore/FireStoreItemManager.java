@@ -1,9 +1,9 @@
 package com.github.wrdlbrnft.modularadapter.itemmanager.firestore;
 
 import android.app.Activity;
+import android.util.Log;
 
 import com.github.wrdlbrnft.modularadapter.itemmanager.ItemManager;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.Query;
@@ -19,6 +19,8 @@ import java.util.List;
 
 public class FireStoreItemManager<T> implements ItemManager<T> {
 
+    private static final String TAG = "FireStoreItemManager";
+
     public interface ItemMapper<T> {
         T apply(DocumentSnapshot document);
     }
@@ -32,6 +34,11 @@ public class FireStoreItemManager<T> implements ItemManager<T> {
         mMapper = mapper;
 
         query.addSnapshotListener(activity, (documentSnapshots, e) -> {
+            if (documentSnapshots == null) {
+                Log.e(TAG, "There is a problem with the supplied query: " + query, e);
+                return;
+            }
+
             mDocuments = documentSnapshots.getDocuments();
             for (ChangeSetCallback changeSetCallback : mChangeSetCallbacks) {
                 changeSetCallback.onChangeSetAvailable((moveCallback, addCallback, removeCallback, changeCallback) -> {
