@@ -30,4 +30,10 @@ class ModelOrderRuleImpl<M extends SortedListItemManager.ViewModel> implements C
     public int apply(SortedListItemManager.ViewModel a, SortedListItemManager.ViewModel b) {
         return mComparator.compare((M) a, (M) b);
     }
+
+    @Priority
+    @Override
+    public int getPriority() {
+        return PRIORITY_HIGH;
+    }
 }

@@ -17,13 +17,4 @@ class RuleUtils {
         }
         return -1;
     }
-
-    public static boolean isClassAssignableToOneOf(Class<?>[] classes, Class<?> item) {
-        for (Class<?> clazz : classes) {
-            if (clazz.isAssignableFrom(item)) {
-                return true;
-            }
-        }
-        return false;
-    }
 }
