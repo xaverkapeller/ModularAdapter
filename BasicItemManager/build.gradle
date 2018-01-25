@@ -1,0 +1,92 @@
+apply plugin: 'com.android.library'
+apply plugin: 'maven'
+apply plugin: 'maven-publish'
+apply plugin: 'com.jfrog.bintray'
+
+android {
+    compileSdkVersion 27
+
+    defaultConfig {
+        minSdkVersion 14
+        targetSdkVersion 27
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        targetCompatibility 1.8
+        sourceCompatibility 1.8
+    }
+}
+
+dependencies {
+    compileOnly project(path: ':ModularAdapter')
+    compileOnly 'com.android.support:support-annotations:27.0.2'
+}
+
+final bintrayUser = System.getenv('BINTRAY_USER') ?: ''
+final bintrayApiKey = System.getenv('BINTRAY_API_KEY') ?: ''
+final versionName = "0.3.0.${System.getenv('TRAVIS_BUILD_NUMBER') ?: 0}"
+
+task sourceJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier 'sources'
+}
+
+publishing {
+    publications {
+        Bintray(MavenPublication) {
+            groupId 'com.github.wrdlbrnft'
+            artifactId 'basic-item-manager'
+            version versionName
+            artifact sourceJar
+            artifact new File(buildDir, '/outputs/aar/BasicItemManager-release.aar')
+
+            pom.withXml {
+                def dependenciesNode = asNode().appendNode('dependencies')
+                final configurations = ['compile', 'api', 'implementation']
+                project.configurations.findAll { it.name in configurations }.each {
+                    it.allDependencies.each {
+                        if (it.group != null && it.name != null && it.version != null) {
+                            def dependencyNode = dependenciesNode.appendNode('dependency')
+                            dependencyNode.appendNode 'groupId', it.group
+                            dependencyNode.appendNode 'artifactId', it.name
+                            dependencyNode.appendNode 'version', it.version
+                            final dependencyArtifact = it.artifacts[0]
+                            if(dependencyArtifact != null) {
+                                if (dependencyArtifact.classifier != null) {
+                                    dependencyNode.appendNode 'classifier', dependencyArtifact.classifier
+                                }
+                                if (dependencyArtifact.extension != null) {
+                                    dependencyNode.appendNode 'type', dependencyArtifact.extension
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+bintray {
+    user = bintrayUser
+    key = bintrayApiKey
+    publications = ['Bintray']
+    pkg {
+        repo = 'maven'
+        name = 'BasicItemManager'
+        userOrg = bintrayUser
+        licenses = ['Apache-2.0']
+        vcsUrl = 'https://github.com/Wrdlbrnft/ModularAdapter'
+        publicDownloadNumbers = true
+        version {
+            name = versionName
+            released = new Date()
+        }
+    }
+}

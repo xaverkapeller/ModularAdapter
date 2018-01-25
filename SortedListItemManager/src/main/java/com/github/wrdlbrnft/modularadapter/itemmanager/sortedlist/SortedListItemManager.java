@@ -5,6 +5,7 @@ import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.v7.util.SortedList;
 
+import com.github.wrdlbrnft.modularadapter.itemmanager.ChangeSet;
 import com.github.wrdlbrnft.modularadapter.itemmanager.ItemManager;
 import com.github.wrdlbrnft.modularadapter.itemmanager.ModifiableItemManager;
 
@@ -206,7 +207,7 @@ public class SortedListItemManager<T extends SortedListItemManager.ViewModel> im
     }
 
     private interface Change {
-        void apply(ChangeConsumer consumer);
+        void apply(ChangeSet.AdapterInterface consumer);
     }
 
     private class ChangeCache extends SortedList.Callback<T> {
@@ -223,10 +224,9 @@ public class SortedListItemManager<T extends SortedListItemManager.ViewModel> im
             MAIN_HANDLER.post(() -> {
                 mFacade.setState(currentState);
                 for (ChangeSetCallback changeSetCallback : mChangeSetCallbacks) {
-                    changeSetCallback.onChangeSetAvailable((moveCallback, addCallback, removeCallback, changeCallback) -> {
-                        final ChangeConsumer consumer = new ChangeConsumerImpl(moveCallback, addCallback, removeCallback, changeCallback);
+                    changeSetCallback.onChangeSetAvailable(adapter -> {
                         for (Change change : changes) {
-                            change.apply(consumer);
+                            change.apply(adapter);
                         }
                     });
                 }
@@ -267,22 +267,22 @@ public class SortedListItemManager<T extends SortedListItemManager.ViewModel> im
 
         @Override
         public void onInserted(int position, int count) {
-            mCurrentChanges.add(consumer -> consumer.add(position, count));
+            mCurrentChanges.add(consumer -> consumer.notifyAdd(position, count));
         }
 
         @Override
         public void onRemoved(int position, int count) {
-            mCurrentChanges.add(consumer -> consumer.remove(position, count));
+            mCurrentChanges.add(consumer -> consumer.notifyRemove(position, count));
         }
 
         @Override
         public void onMoved(int fromPosition, int toPosition) {
-            mCurrentChanges.add(consumer -> consumer.move(fromPosition, toPosition));
+            mCurrentChanges.add(consumer -> consumer.notifyMove(fromPosition, toPosition));
         }
 
         @Override
         public void onChanged(int position, int count) {
-            mCurrentChanges.add(consumer -> consumer.change(position, count));
+            mCurrentChanges.add(consumer -> consumer.notifyChange(position, count));
         }
     }
 }

@@ -7,26 +7,13 @@ package com.github.wrdlbrnft.modularadapter.itemmanager;
  */
 public interface ChangeSet {
 
-    interface MoveCallback {
-        void move(int fromPosition, int toPosition);
+    interface AdapterInterface {
+        void notifyDataSetChanged();
+        void notifyMove(int fromPosition, int toPosition);
+        void notifyAdd(int index, int count);
+        void notifyRemove(int index, int count);
+        void notifyChange(int index, int count);
     }
 
-    interface AddCallback {
-        void add(int index, int count);
-    }
-
-    interface RemoveCallback {
-        void remove(int index, int count);
-    }
-
-    interface ChangeCallback {
-        void change(int index, int count);
-    }
-
-    void applyTo(
-            MoveCallback moveCallback,
-            AddCallback addCallback,
-            RemoveCallback removeCallback,
-            ChangeCallback changeCallback
-    );
+    void applyTo(AdapterInterface adapter);
 }

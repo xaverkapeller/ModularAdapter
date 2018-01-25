@@ -116,6 +116,34 @@ recyclerView.setAdapter(adapter);
 
 This `ItemManager` does not support making any changes to the `List` of items once it has been created.
 
+## BasicItemManager
+
+This `ItemManager` is useful for displaying a simple `List` of items, however it does not fully support item animations. To use the `BasicItemManager` add this dependency to your build.gradle file:
+
+```groovy
+implementation 'com.github.wrdlbrnft:basic-item-manager:0.3.0.22'
+```
+
+After that you can use it in your code like this:
+
+```java
+final List<ExampleModel> models = ...
+
+final ModifiableItemManager<ExampleModel> itemManager = new BasicItemManager<>();
+final ExampleAdapter adapter = new ExampleAdapter(context, itemManager);
+recyclerView.setAdapter(adapter);
+```
+
+You can add or modify the items in the list at any time like this:
+
+```java
+final List<ExampleModel> models = ...
+
+itemManager.newTransaction()
+        .replaceAll(models)
+        .commit();
+```
+
 ## FireStoreItemManager
 
 This `ItemManager` can be used to list Items stored in a [**Firebase FireStore**](https://firebase.google.com/docs/firestore/) collection.

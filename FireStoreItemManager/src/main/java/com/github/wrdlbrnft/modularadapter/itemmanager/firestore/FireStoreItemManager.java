@@ -82,23 +82,23 @@ public class FireStoreItemManager<T> implements ItemManager<T> {
             mDocuments = currentDocuments;
 
             for (ChangeSetCallback changeSetCallback : mChangeSetCallbacks) {
-                changeSetCallback.onChangeSetAvailable((moveCallback, addCallback, removeCallback, changeCallback) -> {
+                changeSetCallback.onChangeSetAvailable(adapter -> {
                     for (DocumentChange change : documentSnapshots.getDocumentChanges()) {
                         final T item = mapper.apply(change.getDocument());
                         if (filter.apply(item)) {
                             switch (change.getType()) {
                                 case ADDED:
-                                    addCallback.add(change.getNewIndex(), 1);
+                                    adapter.notifyAdd(change.getNewIndex(), 1);
                                     break;
                                 case MODIFIED:
                                     if (change.getNewIndex() == change.getOldIndex()) {
-                                        changeCallback.change(change.getNewIndex(), 1);
+                                        adapter.notifyChange(change.getNewIndex(), 1);
                                     } else {
-                                        moveCallback.move(change.getOldIndex(), change.getNewIndex());
+                                        adapter.notifyMove(change.getOldIndex(), change.getNewIndex());
                                     }
                                     break;
                                 case REMOVED:
-                                    removeCallback.remove(change.getOldIndex(), 1);
+                                    adapter.notifyRemove(change.getOldIndex(), 1);
                                     break;
                             }
                         }

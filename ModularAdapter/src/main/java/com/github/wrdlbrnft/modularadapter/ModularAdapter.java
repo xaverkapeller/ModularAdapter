@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.github.wrdlbrnft.modularadapter.itemmanager.ChangeSet;
 import com.github.wrdlbrnft.modularadapter.itemmanager.ItemManager;
 
 import java.util.ArrayList;
@@ -84,12 +85,32 @@ public abstract class ModularAdapter<T> extends RecyclerView.Adapter<ModularAdap
         mInflater = LayoutInflater.from(context);
         mItemManager = itemManager;
 
-        itemManager.addChangeSetCallback(changeSet -> changeSet.applyTo(
-                this::notifyItemMoved,
-                this::notifyItemRangeInserted,
-                this::notifyItemRangeRemoved,
-                this::notifyItemRangeChanged
-        ));
+        itemManager.addChangeSetCallback(changeSet -> changeSet.applyTo(new ChangeSet.AdapterInterface() {
+            @Override
+            public void notifyDataSetChanged() {
+                ModularAdapter.this.notifyDataSetChanged();
+            }
+
+            @Override
+            public void notifyMove(int fromPosition, int toPosition) {
+                notifyItemMoved(fromPosition, toPosition);
+            }
+
+            @Override
+            public void notifyAdd(int index, int count) {
+                notifyItemRangeInserted(index, count);
+            }
+
+            @Override
+            public void notifyRemove(int index, int count) {
+                notifyItemRangeRemoved(index, count);
+            }
+
+            @Override
+            public void notifyChange(int index, int count) {
+                notifyItemRangeChanged(index, count);
+            }
+        }));
     }
 
     public ItemManager<T> getItemManager() {
