@@ -62,7 +62,7 @@ class ModularAdapterImpl<T> extends ModularAdapter<T> {
     @Override
     public int getItemViewType(int position) {
         final T item = getItem(position);
-        final Class<?> itemClass = item.getClass();
+        final Class<? extends T> itemClass = (Class<? extends T>) item.getClass();
         return getViewTypeOf(itemClass);
     }
 }
