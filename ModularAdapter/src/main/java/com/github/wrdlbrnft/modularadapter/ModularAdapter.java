@@ -124,6 +124,10 @@ public abstract class ModularAdapter<T> extends RecyclerView.Adapter<ModularAdap
 
     @NonNull
     protected abstract ViewHolder<? extends T> onCreateViewHolder(@NonNull LayoutInflater inflater, @NonNull ViewGroup parent, int viewType);
+    
+    public int getViewTypeOf(Class<? extends T> model) {
+        throw new UnsupportedOperationException("Not implemented in this Adapter.");
+    }
 
     @Override
     public final void onBindViewHolder(ViewHolder<? extends T> holder, int position) {
