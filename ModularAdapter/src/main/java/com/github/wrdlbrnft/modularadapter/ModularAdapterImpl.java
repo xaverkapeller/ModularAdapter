@@ -47,17 +47,22 @@ class ModularAdapterImpl<T> extends ModularAdapter<T> {
 
         throw new IllegalStateException("No mapping for " + viewType + " exists.");
     }
+    
+    @Override
+    public int getViewTypeOf(Class<? extends T> model) {
+        for (Module<?, ?> module : mModules) {
+            if (module.mItemClass.isAssignableFrom(model)) {
+                return module.mViewType;
+            }
+        }
+
+        throw new IllegalStateException("No mapping for " + model + " exists.");
+    }
 
     @Override
     public int getItemViewType(int position) {
         final T item = getItem(position);
         final Class<?> itemClass = item.getClass();
-        for (Module<?, ?> module : mModules) {
-            if (module.mItemClass.isAssignableFrom(itemClass)) {
-                return module.mViewType;
-            }
-        }
-
-        throw new IllegalStateException("No mapping for " + itemClass + " exists.");
+        return getViewTypeOf(itemClass);
     }
 }
